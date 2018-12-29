@@ -135,7 +135,7 @@ in
             then expandStatusesName
             else Table.ExpandTableColumn(expandStatusesName, "GroupName", {"name"}, {"GroupName.name"}),
 
-        delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "tags", "Tags.1", "status_id", "custom_fields"}),
+        delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "tags", "status_id", "custom_fields"}),
 
 in
     delFinal
