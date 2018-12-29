@@ -138,6 +138,6 @@ in
         delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "tags", "Tags.1", "status_id", "custom_fields"}),
 
 in
-    renameFinal
+    delFinal
 in
 getFn
