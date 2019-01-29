@@ -83,7 +83,7 @@ in
         timestampDateClose = Table.AddColumn(timestampDateModified, "Date_close", each if [date_close] = 0 then null else #datetime(1970,1,1,0,0,0)+#duration(0,0,0,[date_close])),
         removeOldDates = Table.RemoveColumns(timestampDateClose,{"date_create", "last_modified", "date_close"}),
         removeOldDatesToText = Table.TransformColumnTypes(removeOldDates,{{"created_user_id", type text}, {"group_id", type text}, {"pipeline_id", type text}, {"status_id", type text}, {"responsible_user_id", type text}}),
-        removeOldDatesToTextTags = Table.AddColumn(removeOldDatesToText, "mytags", each if List.Count([tags]) = 0 then {[id="", name="не установлено"]} else [tags]),
+        removeOldDatesToTextTags = Table.AddColumn(removeOldDatesToText, "mytags", each if List.Count([tags]) = 0 then {[id="", name="False"]} else [tags]),
         tagsNew = Table.AddColumn(removeOldDatesToTextTags, "Tags.1", each Text.Combine(Table.FromRecords([mytags])[name], ",")),
 
         //Справочник Custom_fields
