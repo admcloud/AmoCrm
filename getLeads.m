@@ -136,7 +136,8 @@ in
             else Table.ExpandTableColumn(expandStatusesName, "GroupName", {"name"}, {"GroupName.name"}),
 
         delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "status_id", "custom_fields"}),
-        //renameFinal = Table.RenameColumns(delFinal,{{"Tags.1", "Tags"}})
+        delFinal1 = Table.RenameColumns(delFinal,{{"Tags", "Tags.e"}}),
+        renameFinal = Table.RenameColumns(delFinal1,{{"Tags.1", "Tags"}})
 
 in
     renameFinal
