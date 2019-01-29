@@ -83,7 +83,8 @@ in
         timestampDateClose = Table.AddColumn(timestampDateModified, "Date_close", each if [date_close] = 0 then null else #datetime(1970,1,1,0,0,0)+#duration(0,0,0,[date_close])),
         removeOldDates = Table.RemoveColumns(timestampDateClose,{"date_create", "last_modified", "date_close"}),
         removeOldDatesToText = Table.TransformColumnTypes(removeOldDates,{{"created_user_id", type text}, {"group_id", type text}, {"pipeline_id", type text}, {"status_id", type text}, {"responsible_user_id", type text}}),
-        tagsNew = Table.AddColumn(removeOldDatesToText, "Tags.1", each Text.Combine(Table.FromRecords([tags])[name], ",")),
+        removeOldDatesToTextTags = Table.AddColumn(removeOldDatesToText, "mytags", each if List.Count([tags]) = 0 then {[id="", name="не установлено"]} else [tags]),
+        tagsNew = Table.AddColumn(removeOldDatesToTextTags, "Tags.1", each Text.Combine(Table.FromRecords([mytags])[name], ",")),
 
         //Справочник Custom_fields
         startCustomFields = Table.AddColumn(tagsNew, "Пользовательская", each Table.FromRecords([custom_fields])),
@@ -135,8 +136,8 @@ in
             then expandStatusesName
             else Table.ExpandTableColumn(expandStatusesName, "GroupName", {"name"}, {"GroupName.name"}),
 
-        delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "status_id", "custom_fields"}),
-        renameFinal = Table.RenameColumns(delFinal,{{"Tags.1", "Tags.4"}})
+        delFinal = Table.RemoveColumns(expandGroupsName,{"created_user_id", "responsible_user_id", "group_id", "pipeline_id", "status_id", "mytags", "tags", "custom_fields"}),
+        renameFinal = Table.RenameColumns(delFinal,{{"Tags.1", "Tags"}})
 
 in
     renameFinal
